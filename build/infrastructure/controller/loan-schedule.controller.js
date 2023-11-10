@@ -2,18 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoanScheduleController = void 0;
 class LoanScheduleController {
-    constructor(simulate) {
-        this.simulate = simulate;
+    constructor(simulateloanScheduleUseCase) {
+        this.simulateloanScheduleUseCase = simulateloanScheduleUseCase;
         this.simulateLoanSchedule = (req, res) => {
             const body = req.body;
-            console.log("dasdsa", body);
-            const response = this.simulate.execute({
+            const response = this.simulateloanScheduleUseCase.execute({
                 loanPrincipal: body.loanPrincipal,
                 startDate: body.startDate,
                 firstDueDate: body.firstDueDate,
-                loanInstallment: body.loanInstallment,
                 loanTerm: body.loanTerm,
-                anualEffectiveRate: body.anualEffectiveRate,
+                effectiveAnualRate: body.effectiveAnualRate,
                 paymentFrecuency: body.paymentFrecuency,
                 businessDays: body.businessDays,
                 calculationType: body.calculationType,
@@ -22,7 +20,6 @@ class LoanScheduleController {
                 typeLifeInsurance: body.typeLifeInsurance,
                 typeIGV: body.typeIGV,
             });
-            console.log("response", response);
             res.json({
                 status: 'ok',
                 message: response

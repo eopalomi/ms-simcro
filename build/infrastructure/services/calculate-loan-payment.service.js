@@ -23,27 +23,27 @@ class CalculateLoanPaymentService {
             installments.forEach((rs, idx, arr) => {
                 numberOfPayment++;
                 let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
-                console.log("tea", (1 + params.anualEffectiveRate), "elavado", daysBetweenDates / 360);
-                let interest = ((1 + params.anualEffectiveRate) ** (daysBetweenDates / 360)) * initialPrincipal;
+                let interest = ((1 + params.anualEffectiveRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal;
                 let principal = estimatedLoanInstalment - interest;
                 finalPrincipal = initialPrincipal - principal;
                 initialPrincipal = finalPrincipal;
-                console.log('Nro.', numberOfPayment, 'fec. ini.', startDate, 'fec. fin', dueDate, 'dias', daysBetweenDates, 'capital', principal, 'interes', interest, 'sal ini.', initialPrincipal, 'sal final', finalPrincipal);
+                //console.log('Nro.', numberOfPayment, 'fec. ini.', startDate, 'fec. fin', dueDate, 'dias', daysBetweenDates, 'capital', principal, 'interes', interest, 'sal ini.', initialPrincipal, 'sal final', finalPrincipal)
                 startDate = new Date(dueDate.getTime());
                 dueDate.setMonth(dueDate.getMonth() + 1);
             });
+
             if (finalPrincipal > 0.00) {
                 minimunFee = estimatedLoanInstalment;
             }
             else {
                 maximunFee = estimatedLoanInstalment;
-            }
-            ;
+            };
+
             estimatedLoanInstalment = (maximunFee + minimunFee) / 2;
-            if (Math.abs(finalPrincipal) < 0.25 || count > 50)
-                break;
+
+            if (Math.abs(finalPrincipal) < 0.25 || count > 70) break;
         }
-        return estimatedLoanInstalment;
+        return +estimatedLoanInstalment.toFixed(2);
     }
 }
 exports.CalculateLoanPaymentService = CalculateLoanPaymentService;

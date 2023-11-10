@@ -1,8 +1,8 @@
-import { SimulateUseCase } from "../../application/simulate/simulate.use-case";
+import { SimulateloanScheduleUseCase } from "../../application/loan-schedule/simulate-loan-shedule.use-case";
 import { Request, Response } from 'express'
 
 export class LoanScheduleController {
-    constructor(private simulate: SimulateUseCase) { }
+    constructor(private simulateloanScheduleUseCase: SimulateloanScheduleUseCase) { }
 
     public simulateLoanSchedule = (req: Request, res: Response) => {
         const body = req.body as {
@@ -11,7 +11,7 @@ export class LoanScheduleController {
             firstDueDate: Date,
             loanInstallment: number,
             loanTerm: number,
-            anualEffectiveRate: number,
+            effectiveAnualRate: number,
             paymentFrecuency: string,
             businessDays: boolean,
             calculationType: string,
@@ -20,14 +20,13 @@ export class LoanScheduleController {
             typeLifeInsurance: string,
             typeIGV: string,
         };
-        console.log("dasdsa", body);
-        const response = this.simulate.execute({
+
+        const response = this.simulateloanScheduleUseCase.execute({
             loanPrincipal: body.loanPrincipal,
             startDate: body.startDate,
             firstDueDate: body.firstDueDate,
-            loanInstallment: body.loanInstallment,
             loanTerm: body.loanTerm,
-            anualEffectiveRate: body.anualEffectiveRate,
+            effectiveAnualRate: body.effectiveAnualRate,
             paymentFrecuency: body.paymentFrecuency,
             businessDays: body.businessDays,
             calculationType: body.calculationType,
@@ -36,7 +35,7 @@ export class LoanScheduleController {
             typeLifeInsurance: body.typeLifeInsurance,
             typeIGV: body.typeIGV,
         })
-        console.log("response", response);
+
         res.json({
             status: 'ok',
             message: response

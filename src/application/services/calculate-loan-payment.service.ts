@@ -1,19 +1,11 @@
 export class CalculateLoanPaymentService {
-   private calcularDiasEntreDosFechas(startDate: Date, endDate: Date) {
-      const difference: number = Math.abs((endDate).getTime() - (startDate).getTime())
-      const convertToDays: number = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
-      return convertToDays;
-   }
 
    public monthlyFee(params: {
       loanPrincipal: number,
       startDate: Date,
       firstDueDate: Date,
-      loanInstallment: number,
       loanTerm: number,
-      anualEffectiveRate: number,
-      paymentFrecuency: string,
+      effectiveAnualRate: number,
       businessDays: boolean,
       calculationType: string,
       scheduleType: string,
@@ -21,7 +13,8 @@ export class CalculateLoanPaymentService {
       typeLifeInsurance: string,
       typeIGV: string,
    }): number {
-      const installments = new Array(params.loanTerm).fill(params.loanInstallment);
+      console.log("params", params)
+      const installments = new Array(params.loanTerm).fill(0.00);
       let maximunFee: number = 200000.00;
       let minimunFee: number = 0.00;
       let estimatedLoanInstalment: number = (maximunFee + minimunFee) / 2
@@ -39,12 +32,13 @@ export class CalculateLoanPaymentService {
          installments.forEach((rs, idx, arr) => {
             numberOfPayment++;
             let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
-            console.log("tea", (1 + params.anualEffectiveRate), "elavado", daysBetweenDates / 360)
-            let interest = ((1 + params.anualEffectiveRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal;
+
+            let interest = ((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal;
             let principal = estimatedLoanInstalment - interest;
             finalPrincipal = initialPrincipal - principal;
             initialPrincipal = finalPrincipal;
-            console.log('Nro.', numberOfPayment, 'fec. ini.', startDate, 'fec. fin', dueDate, 'dias', daysBetweenDates, 'capital', principal, 'interes', interest, 'sal ini.', initialPrincipal, 'sal final', finalPrincipal)
+
+            // console.log('Nro.', numberOfPayment, 'fec. ini.', startDate, 'fec. fin', dueDate, 'dias', daysBetweenDates, 'capital', principal, 'interes', interest, 'sal ini.', initialPrincipal, 'sal final', finalPrincipal)
 
             startDate = new Date(dueDate.getTime());
             dueDate.setMonth(dueDate.getMonth() + 1);
@@ -58,10 +52,22 @@ export class CalculateLoanPaymentService {
 
          estimatedLoanInstalment = (maximunFee + minimunFee) / 2;
 
-         if (Math.abs(finalPrincipal) < 0.25 || count > 50) break;
+         if (Math.abs(finalPrincipal) < 0.05 || count === 100) {
+            // if (count === 100) {
+            //    estimatedLoanInstalment = 0.00
+            // }
+
+            break;
+         };
       }
 
-      return estimatedLoanInstalment;
+      return +estimatedLoanInstalment.toFixed(2);
    }
 
+   private calcularDiasEntreDosFechas(startDate: Date, endDate: Date) {
+      const difference: number = Math.abs((endDate).getTime() - (startDate).getTime())
+      const convertToDays: number = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+      return convertToDays;
+   }
 }

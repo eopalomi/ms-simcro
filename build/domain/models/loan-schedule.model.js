@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoanInstallment = void 0;
-class LoanInstallment {
+exports.LoanSchedule = void 0;
+class LoanSchedule {
     constructor(constructor) {
+        this._effectiveAnualRate = null;
+        this._effectiveCostAnualRate = null;
+        this._installments = null;
         this._idLoanSchedule = constructor.idLoanSchedule;
-        this._effectiveAnualRate = constructor.effectiveAnualRate;
-        this._effectiveCostAnualRate = constructor.effectiveCostAnualRate;
     }
     get idLoanSchedule() {
         return this._idLoanSchedule;
@@ -32,4 +33,4 @@ class LoanInstallment {
         this._installments = val;
     }
 }
-exports.LoanInstallment = LoanInstallment;
+exports.LoanSchedule = LoanSchedule;

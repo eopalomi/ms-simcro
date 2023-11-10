@@ -1,17 +1,15 @@
-export class LoanInstallment {
+import { LoanInstallment } from "./loan-installment.model";
+
+export class LoanSchedule {
    private _idLoanSchedule: string;
-   private _effectiveAnualRate: number;
-   private _effectiveCostAnualRate: number;
-   private _installments!: LoanInstallment[];
+   private _effectiveAnualRate: number | null = null;
+   private _effectiveCostAnualRate: number | null = null;
+   private _installments: LoanInstallment[] | null = null;
 
    constructor(constructor: {
-      idLoanSchedule: string,
-      effectiveAnualRate: number,
-      effectiveCostAnualRate: number
+      idLoanSchedule: string
    }) {
       this._idLoanSchedule = constructor.idLoanSchedule;
-      this._effectiveAnualRate = constructor.effectiveAnualRate;
-      this._effectiveCostAnualRate = constructor.effectiveCostAnualRate;
    }
 
    get idLoanSchedule() {
@@ -26,7 +24,7 @@ export class LoanInstallment {
       return this._effectiveAnualRate
    }
 
-   set effectiveAnualRate(val: number) {
+   set effectiveAnualRate(val: number | null) {
       this._effectiveAnualRate = val
    }
 
@@ -34,7 +32,7 @@ export class LoanInstallment {
       return this._effectiveCostAnualRate
    }
 
-   set effectiveCostAnualRate(val: number) {
+   set effectiveCostAnualRate(val: number | null) {
       this._effectiveCostAnualRate = val
    }
 
@@ -42,7 +40,7 @@ export class LoanInstallment {
       return this._installments
    }
 
-   set installments(val: LoanInstallment[]) {
+   set installments(val: LoanInstallment[] | null) {
       this._installments = val
    }
 }
