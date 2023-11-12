@@ -38,7 +38,7 @@ export class LoanScheduleController {
 
         res.json({
             status: 'ok',
-            message: response
+            message: response.loanInstallments
         })
     }
 };

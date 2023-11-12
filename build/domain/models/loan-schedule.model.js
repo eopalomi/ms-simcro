@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoanSchedule = void 0;
 class LoanSchedule {
-    constructor(constructor) {
-        this._effectiveAnualRate = null;
-        this._effectiveCostAnualRate = null;
-        this._installments = null;
-        this._idLoanSchedule = constructor.idLoanSchedule;
+    toString() {
+        // return this._installments?.map(installment => installment.installment) ?? null
+        return 'hola';
+    }
+    set installments(val) {
+        this._installments = val;
     }
     get idLoanSchedule() {
         return this._idLoanSchedule;
@@ -26,11 +27,11 @@ class LoanSchedule {
     set effectiveCostAnualRate(val) {
         this._effectiveCostAnualRate = val;
     }
-    get installments() {
-        return this._installments;
-    }
-    set installments(val) {
-        this._installments = val;
+    constructor(constructor) {
+        this._effectiveAnualRate = null;
+        this._effectiveCostAnualRate = null;
+        this._installments = null;
+        this._idLoanSchedule = constructor.idLoanSchedule;
     }
 }
 exports.LoanSchedule = LoanSchedule;

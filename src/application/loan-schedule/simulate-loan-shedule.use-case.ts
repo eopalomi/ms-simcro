@@ -30,22 +30,43 @@ export class SimulateloanScheduleUseCase {
 
         const calculatedPayment = this.calculateLoanPaymentService.monthlyFee(params);
         console.log('calculatedPayment', calculatedPayment)
-        loanSchedule.installments = this.calculateSchedule.scheduleWithCapitalization({
-            loanPrincipal: params.loanPrincipal,
-            startDate: params.startDate,
-            firstDueDate: params.firstDueDate,
-            loanInstallment: calculatedPayment,
-            loanTerm: params.loanTerm,
-            effectiveAnualRate: params.effectiveAnualRate,
-            paymentFrecuency: params.paymentFrecuency,
-            businessDays: params.businessDays,
-            calculationType: params.calculationType,
-            scheduleType: params.scheduleType,
-            typeVehicleInsurance: params.typeVehicleInsurance,
-            typeLifeInsurance: params.typeLifeInsurance,
-            typeIGV: params.typeIGV
-        });
 
+        if (params.scheduleType === 'NOR') {
+            loanSchedule.installments = this.calculateSchedule.scheduleWithCapitalization({
+                loanPrincipal: params.loanPrincipal,
+                startDate: params.startDate,
+                firstDueDate: params.firstDueDate,
+                loanInstallment: calculatedPayment,
+                loanTerm: params.loanTerm,
+                effectiveAnualRate: params.effectiveAnualRate,
+                paymentFrecuency: params.paymentFrecuency,
+                businessDays: params.businessDays,
+                calculationType: params.calculationType,
+                scheduleType: params.scheduleType,
+                typeVehicleInsurance: params.typeVehicleInsurance,
+                typeLifeInsurance: params.typeLifeInsurance,
+                typeIGV: params.typeIGV
+            });
+        }
+
+        if (params.scheduleType === 'REP') {
+            loanSchedule.installments = this.calculateSchedule.scheduleWithOutCapitalization({
+                loanPrincipal: params.loanPrincipal,
+                startDate: params.startDate,
+                firstDueDate: params.firstDueDate,
+                loanInstallment: calculatedPayment,
+                loanTerm: params.loanTerm,
+                effectiveAnualRate: params.effectiveAnualRate,
+                paymentFrecuency: params.paymentFrecuency,
+                businessDays: params.businessDays,
+                calculationType: params.calculationType,
+                scheduleType: params.scheduleType,
+                typeVehicleInsurance: params.typeVehicleInsurance,
+                typeLifeInsurance: params.typeLifeInsurance,
+                typeIGV: params.typeIGV
+            });
+        }
+        console.log("loanSchedule", loanSchedule)
         return loanSchedule;
     };
 

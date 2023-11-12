@@ -6,10 +6,12 @@ export class LoanSchedule {
    private _effectiveCostAnualRate: number | null = null;
    private _installments: LoanInstallment[] | null = null;
 
-   constructor(constructor: {
-      idLoanSchedule: string
-   }) {
-      this._idLoanSchedule = constructor.idLoanSchedule;
+   get loanInstallments() {
+      return this._installments?.map(installment => installment.installment) ?? null
+   }
+
+   set installments(val: LoanInstallment[] | null) {
+      this._installments = val
    }
 
    get idLoanSchedule() {
@@ -36,11 +38,10 @@ export class LoanSchedule {
       this._effectiveCostAnualRate = val
    }
 
-   get installments() {
-      return this._installments
+   constructor(constructor: {
+      idLoanSchedule: string
+   }) {
+      this._idLoanSchedule = constructor.idLoanSchedule;
    }
 
-   set installments(val: LoanInstallment[] | null) {
-      this._installments = val
-   }
 }
