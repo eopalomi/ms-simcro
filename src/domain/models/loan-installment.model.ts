@@ -109,8 +109,9 @@ export class LoanInstallment {
          paymentDate: this._paymentDate,
          principal: this._principal,
          interest: this._interest,
+         vehicleInsurance: this._vehicleInsurance,
          finalPricipalBalance: this._finalPrincipal,
-         payment: +(this._principal + this._interest).toFixed(2)
+         payment: +(this._principal + this._interest + this._vehicleInsurance).toFixed(2)
       }
    }
 }

@@ -23,6 +23,7 @@ export class SimulateloanScheduleUseCase {
         calculationType: string,
         scheduleType: string,
         typeVehicleInsurance: string,
+        vehicleInsurance: number,
         typeLifeInsurance: string,
         typeIGV: string,
     }): LoanSchedule => {
@@ -62,11 +63,12 @@ export class SimulateloanScheduleUseCase {
                 calculationType: params.calculationType,
                 scheduleType: params.scheduleType,
                 typeVehicleInsurance: params.typeVehicleInsurance,
+                vehicleInsurance: params.vehicleInsurance,
                 typeLifeInsurance: params.typeLifeInsurance,
                 typeIGV: params.typeIGV
             });
         }
-        console.log("loanSchedule", loanSchedule)
+        console.log("loanSchedule ", loanSchedule)
         return loanSchedule;
     };
 

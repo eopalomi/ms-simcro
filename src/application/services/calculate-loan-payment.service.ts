@@ -10,10 +10,10 @@ export class CalculateLoanPaymentService {
       calculationType: string,
       scheduleType: string,
       typeVehicleInsurance: string,
+      vehicleInsurance: number,
       typeLifeInsurance: string,
       typeIGV: string,
    }): number {
-      console.log("params", params)
       const installments = new Array(params.loanTerm).fill(0.00);
       let maximunFee: number = 200000.00;
       let minimunFee: number = 0.00;
@@ -34,7 +34,7 @@ export class CalculateLoanPaymentService {
             let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
 
             let interest = ((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal;
-            let principal = estimatedLoanInstalment - interest;
+            let principal = +(estimatedLoanInstalment - interest - params.vehicleInsurance).toFixed(2);
             finalPrincipal = initialPrincipal - principal;
             initialPrincipal = finalPrincipal;
 

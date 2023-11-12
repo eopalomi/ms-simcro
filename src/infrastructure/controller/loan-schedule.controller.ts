@@ -17,6 +17,7 @@ export class LoanScheduleController {
             calculationType: string,
             scheduleType: string,
             typeVehicleInsurance: string,
+            vehicleInsurance: number,
             typeLifeInsurance: string,
             typeIGV: string,
         };
@@ -32,13 +33,16 @@ export class LoanScheduleController {
             calculationType: body.calculationType,
             scheduleType: body.scheduleType,
             typeVehicleInsurance: body.typeVehicleInsurance,
+            vehicleInsurance: body.vehicleInsurance,
             typeLifeInsurance: body.typeLifeInsurance,
             typeIGV: body.typeIGV,
         })
 
         res.json({
             status: 'ok',
-            message: response.loanInstallments
+            effectiveAnualRate: response.effectiveAnualRate,
+            effectiveCostAnualRate: response.effectiveCostAnualRate,
+            loanSchedule: response.loanInstallments
         })
     }
 };

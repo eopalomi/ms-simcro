@@ -83,6 +83,7 @@ export class CalculateSchedule {
         calculationType: string,
         scheduleType: string,
         typeVehicleInsurance: string,
+        vehicleInsurance: number,
         typeLifeInsurance: string,
         typeIGV: string
     }): LoanInstallment[] {
@@ -101,24 +102,24 @@ export class CalculateSchedule {
             let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
 
             let interest: number = +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal).toFixed(2);
-            let principal = +(params.loanInstallment - interest).toFixed(2);
+            let principal = +(params.loanInstallment - interest - params.vehicleInsurance).toFixed(2);
 
             interestOfTheBag = interestBag > 0 ? +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * interestBag).toFixed(2) : 0.00;
             let allInterest = +(interest + interestBag + interestOfTheBag).toFixed(2);
 
             if (allInterest >= params.loanInstallment) {
-                interestBag = allInterest - params.loanInstallment;
-                interest = params.loanInstallment;
+                interest = +(params.loanInstallment - params.vehicleInsurance).toFixed(2);
+                interestBag = allInterest - interest;
                 principal = 0.00;
             };
 
             if (allInterest < params.loanInstallment && interestBag > 0) {
-                interest += interestBag += interestOfTheBag;
-                principal = +(params.loanInstallment - interest).toFixed(2);
+                interest = +(interest + interestBag + interestOfTheBag).toFixed(2);
+                principal = +(params.loanInstallment - interest - params.vehicleInsurance).toFixed(2);
                 interestBag = 0.00;
             }
 
-            console.log('loan', params.loanInstallment, 'initialPrincipal', initialPrincipal, 'finalPrincipal', finalPrincipal, 'Principal', principal, 'interest', interest, 'allInterest', allInterest, 'interestBag', interestBag)
+            // console.log('loan', params.loanInstallment, 'initialPrincipal', initialPrincipal, 'finalPrincipal', finalPrincipal, 'Principal', principal, 'interest', interest, 'allInterest', allInterest, 'interestBag', interestBag)
 
             finalPrincipal = +(initialPrincipal - principal).toFixed(2);
             initialPrincipal = +finalPrincipal.toFixed(2);
@@ -136,7 +137,7 @@ export class CalculateSchedule {
                 paymentDate: dueDate.toISOString().substring(0, 10),
                 principal: principal,
                 interest: interest,
-                vehicleInsurance: 0.00,
+                vehicleInsurance: params.vehicleInsurance,
                 lifeInsurance: 0.00,
                 igvInsurance: 0.00,
                 preventionInsurance: 0.00,
