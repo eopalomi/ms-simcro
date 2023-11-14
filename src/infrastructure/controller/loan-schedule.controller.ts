@@ -19,7 +19,7 @@ export class LoanScheduleController {
             typeVehicleInsurance: string,
             vehicleInsurance: number,
             typeLifeInsurance: string,
-            typeIGV: string,
+            igv: boolean,
         };
 
         const response = this.simulateloanScheduleUseCase.execute({
@@ -35,7 +35,7 @@ export class LoanScheduleController {
             typeVehicleInsurance: body.typeVehicleInsurance,
             vehicleInsurance: body.vehicleInsurance,
             typeLifeInsurance: body.typeLifeInsurance,
-            typeIGV: body.typeIGV,
+            igv: body.igv,
         })
 
         res.json({

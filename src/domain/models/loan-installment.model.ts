@@ -3,9 +3,10 @@ export class LoanInstallment {
    private _paymentDate: string;
    private _principal: number;
    private _interest: number;
+   private _allInterest: number;
    private _vehicleInsurance: number;
    private _lifeInsurance: number;
-   private _igvInsurance: number;
+   private _igv: number;
    private _preventionInsurance: number;
    private _finalPrincipal: number;
 
@@ -14,9 +15,10 @@ export class LoanInstallment {
       paymentDate: string,
       principal: number,
       interest: number,
+      allInterest: number,
       vehicleInsurance: number,
       lifeInsurance: number,
-      igvInsurance: number,
+      igv: number,
       preventionInsurance: number,
       finalPrincipal: number,
    }) {
@@ -24,9 +26,10 @@ export class LoanInstallment {
       this._paymentDate = constructor.paymentDate;
       this._principal = constructor.principal;
       this._interest = constructor.interest;
+      this._allInterest = constructor.allInterest;
       this._vehicleInsurance = constructor.vehicleInsurance;
       this._lifeInsurance = constructor.lifeInsurance;
-      this._igvInsurance = constructor.igvInsurance;
+      this._igv = constructor.igv;
       this._preventionInsurance = constructor.preventionInsurance;
       this._finalPrincipal = constructor.finalPrincipal;
    }
@@ -80,11 +83,11 @@ export class LoanInstallment {
    }
 
    get igvInsurance() {
-      return this._igvInsurance
+      return this._igv
    }
 
    set igvInsurance(val: number) {
-      this._igvInsurance = val
+      this._igv = val
    }
 
    get preventionInsurance() {
@@ -109,9 +112,12 @@ export class LoanInstallment {
          paymentDate: this._paymentDate,
          principal: this._principal,
          interest: this._interest,
+         allInterest: this._allInterest,
          vehicleInsurance: this._vehicleInsurance,
+         igv: this._igv,
          finalPricipalBalance: this._finalPrincipal,
-         payment: +(this._principal + this._interest + this._vehicleInsurance).toFixed(2)
+         payment: +(this._principal + this._interest + this._vehicleInsurance + this._igv).toFixed(2),
+
       }
    }
 }

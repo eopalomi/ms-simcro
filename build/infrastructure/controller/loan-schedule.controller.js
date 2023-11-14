@@ -17,12 +17,15 @@ class LoanScheduleController {
                 calculationType: body.calculationType,
                 scheduleType: body.scheduleType,
                 typeVehicleInsurance: body.typeVehicleInsurance,
+                vehicleInsurance: body.vehicleInsurance,
                 typeLifeInsurance: body.typeLifeInsurance,
-                typeIGV: body.typeIGV,
+                igv: body.igv,
             });
             res.json({
                 status: 'ok',
-                message: response
+                effectiveAnualRate: response.effectiveAnualRate,
+                effectiveCostAnualRate: response.effectiveCostAnualRate,
+                loanSchedule: response.loanInstallments
             });
         };
     }

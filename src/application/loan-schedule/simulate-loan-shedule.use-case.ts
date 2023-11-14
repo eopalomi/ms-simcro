@@ -25,18 +25,18 @@ export class SimulateloanScheduleUseCase {
         typeVehicleInsurance: string,
         vehicleInsurance: number,
         typeLifeInsurance: string,
-        typeIGV: string,
+        igv: boolean,
     }): LoanSchedule => {
         const loanSchedule = new LoanSchedule({ idLoanSchedule: 'abc123' })
 
         const calculatedPayment = this.calculateLoanPaymentService.monthlyFee(params);
-        console.log('calculatedPayment', calculatedPayment)
+        console.log('calculatedPayment', calculatedPayment, "params.firstDueDate", new Date(params.firstDueDate))
 
         if (params.scheduleType === 'NOR') {
             loanSchedule.installments = this.calculateSchedule.scheduleWithCapitalization({
                 loanPrincipal: params.loanPrincipal,
                 startDate: params.startDate,
-                firstDueDate: params.firstDueDate,
+                firstDueDate: new Date(params.firstDueDate),
                 loanInstallment: calculatedPayment,
                 loanTerm: params.loanTerm,
                 effectiveAnualRate: params.effectiveAnualRate,
@@ -46,7 +46,7 @@ export class SimulateloanScheduleUseCase {
                 scheduleType: params.scheduleType,
                 typeVehicleInsurance: params.typeVehicleInsurance,
                 typeLifeInsurance: params.typeLifeInsurance,
-                typeIGV: params.typeIGV
+                igv: params.igv
             });
         }
 
@@ -54,7 +54,7 @@ export class SimulateloanScheduleUseCase {
             loanSchedule.installments = this.calculateSchedule.scheduleWithOutCapitalization({
                 loanPrincipal: params.loanPrincipal,
                 startDate: params.startDate,
-                firstDueDate: params.firstDueDate,
+                firstDueDate: new Date(params.firstDueDate),
                 loanInstallment: calculatedPayment,
                 loanTerm: params.loanTerm,
                 effectiveAnualRate: params.effectiveAnualRate,
@@ -65,10 +65,10 @@ export class SimulateloanScheduleUseCase {
                 typeVehicleInsurance: params.typeVehicleInsurance,
                 vehicleInsurance: params.vehicleInsurance,
                 typeLifeInsurance: params.typeLifeInsurance,
-                typeIGV: params.typeIGV
+                typeIGV: params.igv
             });
         }
-        console.log("loanSchedule ", loanSchedule)
+        // console.log("loanSchedule ", loanSchedule)
         return loanSchedule;
     };
 

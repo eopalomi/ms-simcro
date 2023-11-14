@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoanSchedule = void 0;
 class LoanSchedule {
-    toString() {
-        // return this._installments?.map(installment => installment.installment) ?? null
-        return 'hola';
+    get loanInstallments() {
+        var _a, _b;
+        return (_b = (_a = this._installments) === null || _a === void 0 ? void 0 : _a.map(installment => installment.installment)) !== null && _b !== void 0 ? _b : null;
     }
     set installments(val) {
         this._installments = val;

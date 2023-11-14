@@ -7,9 +7,10 @@ class LoanInstallment {
         this._paymentDate = constructor.paymentDate;
         this._principal = constructor.principal;
         this._interest = constructor.interest;
+        this._allInterest = constructor.allInterest;
         this._vehicleInsurance = constructor.vehicleInsurance;
         this._lifeInsurance = constructor.lifeInsurance;
-        this._igvInsurance = constructor.igvInsurance;
+        this._igv = constructor.igv;
         this._preventionInsurance = constructor.preventionInsurance;
         this._finalPrincipal = constructor.finalPrincipal;
     }
@@ -50,10 +51,10 @@ class LoanInstallment {
         this._lifeInsurance = val;
     }
     get igvInsurance() {
-        return this._igvInsurance;
+        return this._igv;
     }
     set igvInsurance(val) {
-        this._igvInsurance = val;
+        this._igv = val;
     }
     get preventionInsurance() {
         return this._preventionInsurance;
@@ -73,7 +74,11 @@ class LoanInstallment {
             paymentDate: this._paymentDate,
             principal: this._principal,
             interest: this._interest,
-            finalPricipalBalance: this._finalPrincipal
+            allInterest: this._allInterest,
+            vehicleInsurance: this._vehicleInsurance,
+            igv: this._igv,
+            finalPricipalBalance: this._finalPrincipal,
+            payment: +(this._principal + this._interest + this._vehicleInsurance + this._igv).toFixed(2),
         };
     }
 }
