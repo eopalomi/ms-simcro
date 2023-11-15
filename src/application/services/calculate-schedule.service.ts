@@ -4,13 +4,21 @@ export class CalculateSchedule {
     [x: string]: any;
     constructor() { }
 
-    private calcularDiasEntreDosFechas(startDate: Date, endDate: Date) {
+    private calculateDaysBetweenTwoDates(startDate: Date, endDate: Date) {
         const difference: number = Math.abs((endDate).getTime() - (startDate).getTime())
         const convertToDays: number = Math.ceil(difference / (1000 * 60 * 60 * 24));
 
         return convertToDays;
     }
+    
+    private calculateInterest(effectiveAnnualRate: number, days: number, principal: number): number {
+        return +(((1 + effectiveAnnualRate) ** (days / 360) - 1) * principal).toFixed(2);
+    }
 
+    private calculateInstallmentsWithoutAdditional(loanInstallment: number, vehicleInsurance: number): number {
+        return +(loanInstallment - vehicleInsurance).toFixed(2);
+    }
+    
     scheduleWithCapitalization(params: {
         loanPrincipal: number,
         startDate: Date,
@@ -36,9 +44,9 @@ export class CalculateSchedule {
 
         installments.forEach((rs, idx, arr) => {
             numberOfPayment++;
-            let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
+            let daysBetweenDates = this.calculateDaysBetweenTwoDates(startDate, dueDate);
 
-            let interest: number = +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal).toFixed(2);
+            let interest: number = this.calculateInterest(params.effectiveAnualRate, daysBetweenDates, initialPrincipal); //+(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal).toFixed(2);
             let principal = +(params.loanInstallment - interest).toFixed(2);
             // console.log('loan', params.loanInstallment, 'initialPrincipal', initialPrincipal, 'finalPrincipal', finalPrincipal, 'Principal', principal, 'interest', interest)
 
@@ -101,11 +109,12 @@ export class CalculateSchedule {
 
         installments.forEach((rs, idx, arr) => {
             numberOfPayment++;
-            let daysBetweenDates = this.calcularDiasEntreDosFechas(startDate, dueDate);
-            let calculatedInterest: number = +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal).toFixed(2);
-            let installmentsWithNoAdditional = +(params.loanInstallment - params.vehicleInsurance).toFixed(2)
+            let daysBetweenDates = this.calculateDaysBetweenTwoDates(startDate, dueDate);
+            
+            let calculatedInterest: number = this.calculateInterest(params.effectiveAnualRate, daysBetweenDates, initialPrincipal); //+(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialPrincipal).toFixed(2);
+            let installmentsWithNoAdditional = this.calculateInstallmentsWithoutAdditional(params.loanInstallment, params.vehicleInsurance); //+(params.loanInstallment - params.vehicleInsurance).toFixed(2)
 
-            let interestOfTheBag = initialInterestBag > 0 ? +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialInterestBag).toFixed(2) : 0.00;
+            let interestOfTheBag = initialInterestBag > 0 ? this.calculateInterest(params.effectiveAnualRate, daysBetweenDates, initialInterestBag) : 0.00; // +(((1 + params.effectiveAnualRate) ** (daysBetweenDates / 360) - 1) * initialInterestBag).toFixed(2) : 0.00;
             let allInterest = +(calculatedInterest + initialInterestBag + interestOfTheBag).toFixed(2);
 
             let interest: number = allInterest > (installmentsWithNoAdditional/1.18) ? +(installmentsWithNoAdditional/1.18).toFixed(2) : allInterest;
@@ -116,6 +125,7 @@ export class CalculateSchedule {
             let principal: number = allInterest > installmentsWithNoAdditional ? 0.00 : +(installmentsWithNoAdditional - interest - igv).toFixed(2) ;
 
             finalPrincipal = +(initialPrincipal - principal).toFixed(2);
+
             // Ajuste de la ultima cuota
             if (idx + 1 === installments.length) {
                 principal = +(finalPrincipal + principal).toFixed(2);
