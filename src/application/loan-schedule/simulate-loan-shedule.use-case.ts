@@ -65,7 +65,7 @@ export class SimulateloanScheduleUseCase {
                 typeVehicleInsurance: params.typeVehicleInsurance,
                 vehicleInsurance: params.vehicleInsurance,
                 typeLifeInsurance: params.typeLifeInsurance,
-                typeIGV: params.igv
+                igv: params.igv
             });
         }
         // console.log("loanSchedule ", loanSchedule)
